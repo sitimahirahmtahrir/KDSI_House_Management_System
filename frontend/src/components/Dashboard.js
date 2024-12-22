@@ -1,44 +1,67 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-const Dashboard = () => {
-    const [data, setData] = useState({
-        totalHouses: 0,
-        occupiedHouses: 0,
-        underMaintenance: 0,
-        totalGuests: 0,
-    });
+function Dashboard() {
+  const [summary, setSummary] = useState({
+    totalHouses: 0,
+    occupiedHouses: 0,
+    vacantHouses: 0,
+    maintenanceRequests: 0,
+  });
 
-    useEffect(() => {
-        // Fetch data from API (dummy example)
-        fetch('/api/dashboard-stats')
-            .then((response) => response.json())
-            .then((stats) => setData(stats))
-            .catch((error) => console.error('Error fetching dashboard stats:', error));
-    }, []);
+  const [loading, setLoading] = useState(true);
 
-    return (
-        <div className="dashboard">
-            <h1>Admin Dashboard</h1>
-            <div className="stats">
-                <div className="stat">
-                    <h2>Total Houses</h2>
-                    <p>{data.totalHouses}</p>
-                </div>
-                <div className="stat">
-                    <h2>Occupied Houses</h2>
-                    <p>{data.occupiedHouses}</p>
-                </div>
-                <div className="stat">
-                    <h2>Under Maintenance</h2>
-                    <p>{data.underMaintenance}</p>
-                </div>
-                <div className="stat">
-                    <h2>Total Guests</h2>
-                    <p>{data.totalGuests}</p>
-                </div>
-            </div>
+  // Simulate fetching data from an API
+  useEffect(() => {
+    // Placeholder for API call
+    const fetchSummaryData = async () => {
+      setLoading(true);
+      try {
+        // Simulate API data
+        const data = {
+          totalHouses: 50,
+          occupiedHouses: 35,
+          vacantHouses: 10,
+          maintenanceRequests: 5,
+        };
+
+        setSummary(data);
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSummaryData();
+  }, []);
+
+  if (loading) {
+    return <p>Loading dashboard data...</p>;
+  }
+
+  return (
+    <div>
+      <h2>Dashboard</h2>
+      <div className="dashboard-summary">
+        <div className="card">
+          <h3>Total Houses</h3>
+          <p>{summary.totalHouses}</p>
         </div>
-    );
-};
+        <div className="card">
+          <h3>Occupied Houses</h3>
+          <p>{summary.occupiedHouses}</p>
+        </div>
+        <div className="card">
+          <h3>Vacant Houses</h3>
+          <p>{summary.vacantHouses}</p>
+        </div>
+        <div className="card">
+          <h3>Maintenance Requests</h3>
+          <p>{summary.maintenanceRequests}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default Dashboard;

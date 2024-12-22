@@ -1,47 +1,93 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-const Reports = () => {
-    const [reports, setReports] = useState([]);
+function Reports() {
+  const [reports, setReports] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-    useEffect(() => {
-        fetch('/api/reports')
-            .then((response) => response.json())
-            .then((data) => setReports(data))
-            .catch((error) => console.error('Error fetching reports:', error));
-    }, []);
+  // Fetch reports from the backend
+  useEffect(() => {
+    const fetchReports = async () => {
+      setLoading(true);
+      setError("");
 
-    const handleDownloadReport = (reportId) => {
-        fetch(`/api/reports/${reportId}/download`, { method: 'GET' })
-            .then((response) => {
-                if (response.ok) {
-                    return response.blob();
-                } else {
-                    throw new Error('Error downloading report');
-                }
-            })
-            .then((blob) => {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `report-${reportId}.pdf`;
-                a.click();
-            })
-            .catch((error) => console.error(error));
+      try {
+        const response = await axios.get("http://your-backend-url/api/reports");
+        setReports(response.data);
+      } catch (err) {
+        console.error("Error fetching reports:", err);
+        setError("Failed to fetch reports. Please try again.");
+      } finally {
+        setLoading(false);
+      }
     };
 
-    return (
-        <div className="reports">
-            <h1>Reports</h1>
-            <ul>
-                {reports.map((report) => (
-                    <li key={report.id}>
-                        {report.title}
-                        <button onClick={() => handleDownloadReport(report.id)}>Download</button>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
-};
+    fetchReports();
+  }, []);
+
+  const handleDownload = async (reportId) => {
+    try {
+      const response = await axios.get(`http://your-backend-url/api/reports/${reportId}/download`, {
+        responseType: "blob", // Ensures the response is treated as a file
+      });
+
+      // Create a blob URL and trigger download
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `report-${reportId}.pdf`); // Replace with desired filename
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+    } catch (err) {
+      console.error("Error downloading report:", err);
+      setError("Failed to download report. Please try again.");
+    }
+  };
+
+  if (loading) {
+    return <p>Loading reports...</p>;
+  }
+
+  if (error) {
+    return <p className="error-message">{error}</p>;
+  }
+
+  return (
+    <div>
+      <h2>Reports</h2>
+      {reports.length === 0 ? (
+        <p>No reports available.</p>
+      ) : (
+        <table className="reports-table">
+          <thead>
+            <tr>
+              <th>Report Name</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {reports.map((report) => (
+              <tr key={report.id}>
+                <td>{report.name}</td>
+                <td>{new Date(report.date).toLocaleDateString()}</td>
+                <td>
+                  <button
+                    onClick={() => handleDownload(report.id)}
+                    className="download-button"
+                  >
+                    Download
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
+  );
+}
 
 export default Reports;

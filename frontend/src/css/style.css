@@ -1,113 +1,185 @@
-/* General Styles */
+/* General Body Styling */
 body {
+    font-family: 'Roboto', sans-serif; /* Sets the font family for the entire page */
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', sans-serif;
-    background-color: #f5f5f5;
-    color: #333;
+    background-color: #f4f4f9; /* Light gray background for the page */
+}
+
+/* Header Styling */
+header.main-header {
+    background-color: #002855; /* Navy blue background for the header */
+    color: #ffffff; /* White text color */
+    padding: 20px;
+    text-align: center; /* Centers the title text */
+}
+
+header.main-header h1 {
+    margin: 0;
+    font-size: 2rem; /* Title font size */
+    font-weight: bold; /* Bold font for the title */
+}
+
+/* Navbar Styling */
+nav.navbar {
+    background-color: #444; /* Dark gray background for the navbar */
+    overflow: hidden; /* Prevents content overflow */
+}
+
+nav.navbar ul {
+    list-style: none; /* Removes bullet points from the list */
+    margin: 0;
+    padding: 0;
+    display: flex; /* Aligns items in a row */
+    justify-content: center; /* Centers the navigation items */
+}
+
+nav.navbar ul li {
+    margin: 0;
+}
+
+nav.navbar ul li a {
+    display: block; /* Makes the links block elements */
+    padding: 10px 20px;
+    color: #fff; /* White text color */
+    text-decoration: none; /* Removes underline */
+    text-transform: uppercase; /* Makes text uppercase */
+    font-weight: bold; /* Bold text for links */
+}
+
+nav.navbar ul li a:hover {
+    background-color: #575757; /* Light gray background on hover */
+}
+
+/* Main Section Styling */
+main {
+    padding: 20px; /* Adds padding around main content */
+}
+
+/* Dashboard Section */
+main #dashboard {
+    background: #fff; /* White background for the dashboard section */
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+main #dashboard h2 {
+    color: #002855; /* Navy blue for headings */
+    font-size: 1.5rem; /* Font size for dashboard headings */
+    margin-top: 0;
+}
+
+main #dashboard p {
+    font-size: 1rem; /* Standard font size for paragraph text */
+    line-height: 1.6; /* Increases line spacing for readability */
+}
+
+/* Houses Section */
+main #houses {
+    background: #fff;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+main #houses h2 {
+    color: #002855;
+    font-size: 1.5rem;
+    margin-top: 0;
+}
+
+main #houses p {
+    font-size: 1rem;
     line-height: 1.6;
 }
 
-/* Header Styles */
-header {
-    background-color: #004085;
-    color: white;
-    text-align: center;
-    padding: 1.5rem 0;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-header h1 {
-    margin: 0;
-    font-size: 2rem;
-    font-weight: 700;
-}
-
-/* Navigation Bar Styles */
-nav {
-    background-color: #343a40;
-    display: flex;
-    justify-content: center;
-    padding: 0.5rem 0;
-}
-
-nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
-
-nav ul li {
-    margin: 0 1rem;
-}
-
-nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 1rem;
-    transition: color 0.3s ease-in-out;
-}
-
-nav ul li a:hover {
-    color: #ffc107;
-}
-
-/* Main Content Styles */
-main {
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    background-color: white;
+/* Guests Section */
+main #guests {
+    background: #fff;
+    padding: 15px;
+    margin: 10px 0;
     border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Section Styles */
-section {
-    margin-bottom: 2rem;
-}
-
-section h2 {
-    color: #004085;
-    border-bottom: 2px solid #004085;
-    padding-bottom: 0.5rem;
-    margin-bottom: 1rem;
+main #guests h2 {
+    color: #002855;
     font-size: 1.5rem;
+    margin-top: 0;
 }
 
-section p {
+main #guests p {
     font-size: 1rem;
-    margin: 0;
-    line-height: 1.8;
+    line-height: 1.6;
 }
 
-/* Button Styles */
-button {
-    background-color: #004085;
-    color: white;
-    border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: 5px;
+/* Maintenance Section */
+main #maintenance {
+    background: #fff;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+main #maintenance h2 {
+    color: #002855;
+    font-size: 1.5rem;
+    margin-top: 0;
+}
+
+main #maintenance p {
     font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
+    line-height: 1.6;
 }
 
-button:hover {
-    background-color: #0056b3;
+/* Reports Section */
+main #reports {
+    background: #fff;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Footer Styles */
-footer {
-    background-color: #343a40;
-    color: white;
-    text-align: center;
-    padding: 1rem 0;
+main #reports h2 {
+    color: #002855;
+    font-size: 1.5rem;
+    margin-top: 0;
 }
 
-footer p {
-    margin: 0;
-    font-size: 0.9rem;
+main #reports p {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Footer Styling */
+footer.main-footer {
+    background-color: #002855; /* Navy blue background for the footer */
+    color: #ffffff; /* White text color */
+    text-align: center; /* Centers footer text */
+    padding: 10px;
+    position: fixed; /* Fixes footer at the bottom */
+    bottom: 0;
+    width: 100%; /* Stretches footer to the full width */
+}
+
+/* Logout Button Styling */
+button.logout-button {
+    background-color: #e74c3c; /* Red background for logout button */
+    color: #fff; /* White text */
+    border: none; /* Removes border */
+    border-radius: 4px; /* Rounded corners */
+    padding: 10px 20px;
+    cursor: pointer; /* Changes cursor to pointer on hover */
+    font-size: 1rem; /* Font size for button text */
+    font-weight: bold;
+    text-transform: uppercase; /* Uppercase text */
+}
+
+button.logout-button:hover {
+    background-color: #c0392b; /* Darker red on hover */
 }
