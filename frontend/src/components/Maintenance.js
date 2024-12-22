@@ -1,85 +1,52 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 const Maintenance = () => {
     const [requests, setRequests] = useState([]);
-    const [description, setDescription] = useState("");
-    const [image, setImage] = useState(null);
+    const [newRequest, setNewRequest] = useState({ description: '', houseId: '' });
 
-    // Fetch the list of maintenance requests on component mount
     useEffect(() => {
-        fetch("http://localhost:8000/api/maintenance-requests")
+        fetch('/api/maintenance')
             .then((response) => response.json())
             .then((data) => setRequests(data))
-            .catch((error) => console.error("Error:", error));
+            .catch((error) => console.error('Error fetching maintenance requests:', error));
     }, []);
 
-    // Handle submitting a new maintenance request
-    const handleSubmitRequest = (e) => {
+    const handleAddRequest = (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append("description", description);
-        if (image) {
-            formData.append("image", image);
-        }
-
-        fetch("http://localhost:8000/api/maintenance-requests", {
-            method: "POST",
-            body: formData,
+        fetch('/api/maintenance', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newRequest),
         })
             .then((response) => response.json())
-            .then((data) => {
-                alert("Maintenance request submitted successfully!");
-                setRequests([...requests, data]); // Update the local state
-                setDescription("");
-                setImage(null);
-            })
-            .catch((error) => console.error("Error:", error));
+            .then((request) => setRequests([...requests, request]))
+            .catch((error) => console.error('Error adding request:', error));
     };
 
     return (
-        <div>
+        <div className="maintenance">
             <h1>Maintenance Requests</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Description</th>
-                        <th>Status</th>
-                        <th>Image</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {requests.map((request) => (
-                        <tr key={request.id}>
-                            <td>{request.description}</td>
-                            <td>{request.status}</td>
-                            <td>
-                                {request.image && (
-                                    <img
-                                        src={`http://localhost:8000/storage/${request.image}`}
-                                        alt="Maintenance"
-                                        width="100"
-                                    />
-                                )}
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            <form onSubmit={handleSubmitRequest}>
-                <h2>Submit New Request</h2>
-                <label>Description:</label>
+            <form onSubmit={handleAddRequest}>
                 <textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    required
-                ></textarea>
-                <label>Upload Image (Optional):</label>
-                <input
-                    type="file"
-                    onChange={(e) => setImage(e.target.files[0])}
+                    placeholder="Description"
+                    value={newRequest.description}
+                    onChange={(e) => setNewRequest({ ...newRequest, description: e.target.value })}
                 />
-                <button type="submit">Submit Request</button>
+                <input
+                    type="text"
+                    placeholder="House ID"
+                    value={newRequest.houseId}
+                    onChange={(e) => setNewRequest({ ...newRequest, houseId: e.target.value })}
+                />
+                <button type="submit">Add Request</button>
             </form>
+            <ul>
+                {requests.map((request) => (
+                    <li key={request.id}>
+                        {request.description} (House ID: {request.houseId})
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 };

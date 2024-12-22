@@ -1,50 +1,52 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleLogin = (e) => {
         e.preventDefault();
-        fetch("http://localhost:8000/api/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
+        fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password }),
         })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.success) {
-                    alert("Login successful!");
-                    window.location.href = "/dashboard";
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
                 } else {
-                    alert("Login failed: " + data.message);
+                    throw new Error('Invalid credentials');
                 }
             })
-            .catch((error) => console.error("Error:", error));
+            .then((data) => {
+                localStorage.setItem('token', data.token);
+                navigate('/dashboard');
+            })
+            .catch((err) => setError(err.message));
     };
 
     return (
-        <div>
+        <div className="login">
             <h1>Login</h1>
-            <form onSubmit={handleSubmit}>
-                <label>Email:</label>
+            <form onSubmit={handleLogin}>
                 <input
                     type="email"
+                    placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    required
                 />
-                <label>Password:</label>
                 <input
                     type="password"
+                    placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    required
                 />
                 <button type="submit">Login</button>
             </form>
+            {error && <p className="error">{error}</p>}
         </div>
     );
 };

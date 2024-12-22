@@ -21,13 +21,14 @@ class HouseController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'house_number' => 'required|unique:houses',
-            'location' => 'required',
+            'house_number' => 'required|string|unique:houses',
+            'location' => 'required|string',
             'status' => 'required|in:Vacant,Occupied,Maintenance',
         ]);
 
         House::create($request->all());
-        return redirect()->route('houses.index')->with('success', 'House created successfully.');
+
+        return redirect('/houses')->with('success', 'House added successfully.');
     }
 
     public function edit($id)
@@ -39,20 +40,22 @@ class HouseController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'house_number' => 'required',
-            'location' => 'required',
+            'house_number' => 'required|string|unique:houses,house_number,' . $id,
+            'location' => 'required|string',
             'status' => 'required|in:Vacant,Occupied,Maintenance',
         ]);
 
         $house = House::findOrFail($id);
         $house->update($request->all());
-        return redirect()->route('houses.index')->with('success', 'House updated successfully.');
+
+        return redirect('/houses')->with('success', 'House updated successfully.');
     }
 
     public function destroy($id)
     {
         $house = House::findOrFail($id);
         $house->delete();
-        return redirect()->route('houses.index')->with('success', 'House deleted successfully.');
+
+        return redirect('/houses')->with('success', 'House deleted successfully.');
     }
 }

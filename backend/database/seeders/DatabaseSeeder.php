@@ -8,26 +8,33 @@ use App\Models\House;
 
 class DatabaseSeeder extends Seeder
 {
+    /**
+     * Seed the application's database.
+     *
+     * @return void
+     */
     public function run()
     {
         // Create an admin user
         User::create([
-            'name' => 'Admin',
+            'name' => 'Admin User',
             'email' => 'admin@example.com',
             'password' => bcrypt('password'),
-            'role' => 'admin',
+            'role' => 'Admin',
         ]);
 
-        // Add sample houses
+        // Create sample houses
         House::create([
-            'house_number' => 'H001',
-            'location' => 'Taman Mawar',
+            'name' => 'House A',
+            'address' => '123 Main Street',
+            'type' => 'Apartment',
             'status' => 'Vacant',
         ]);
 
         House::create([
-            'house_number' => 'H002',
-            'location' => 'Taman Anggerik',
+            'name' => 'House B',
+            'address' => '456 Elm Street',
+            'type' => 'Detached',
             'status' => 'Occupied',
         ]);
     }
