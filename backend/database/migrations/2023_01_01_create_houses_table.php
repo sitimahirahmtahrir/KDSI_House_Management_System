@@ -11,15 +11,17 @@ class CreateHousesTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('houses', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->text('address');
-            $table->string('type');
-            $table->string('status'); // E.g., 'Vacant', 'Occupied', 'Under Maintenance'
-            $table->timestamps();
+            $table->id(); // Primary key
+            $table->string('name'); // Name or identifier for the house
+            $table->string('address'); // Address of the house
+            $table->enum('status', ['vacant', 'occupied', 'under_maintenance'])->default('vacant'); // House status
+            $table->integer('number_of_rooms')->nullable(); // Number of rooms in the house
+            $table->integer('rental_price')->nullable(); // Rental price (optional)
+            $table->text('description')->nullable(); // Description or additional details about the house
+            $table->timestamps(); // Created and Updated timestamps
         });
     }
 
@@ -28,7 +30,7 @@ class CreateHousesTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('houses');
     }

@@ -9,31 +9,29 @@ class MaintenanceRequest extends Model
 {
     use HasFactory;
 
-    // Define the table name if it is not "maintenance_requests"
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'maintenance_requests';
 
-    // Define the fillable fields
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'house_id',
         'description',
-        'status',
-        'requested_by',
-        'image',
+        'status', // Options: 'Pending', 'In Progress', 'Completed'
     ];
 
     /**
-     * Define the relationship with the House model.
+     * Define a relationship with the House model.
      */
     public function house()
     {
         return $this->belongsTo(House::class);
-    }
-
-    /**
-     * Define the relationship with the User model.
-     */
-    public function requestedBy()
-    {
-        return $this->belongsTo(User::class, 'requested_by');
     }
 }

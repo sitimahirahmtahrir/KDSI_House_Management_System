@@ -1,54 +1,202 @@
-/* General styles for the application */
+/* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
 }
 
-header {
-    background-color: #007BFF;
+/* Header Styles */
+header.main-header {
+    background-color: #007bff; /* Navy blue header */
     color: white;
-    padding: 10px 0;
     text-align: center;
+    padding: 20px 0;
+    font-size: 1.8rem;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 15px;
-    background: white;
+/* Navbar Styles */
+nav.navbar {
+    background-color: #343a40; /* Dark grey navbar */
+    padding: 10px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+nav.navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+nav.navbar ul li {
+    margin: 0;
+}
+
+nav.navbar ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    padding: 8px 15px;
+    transition: background-color 0.3s;
+}
+
+nav.navbar ul li a:hover {
+    background-color: #495057;
     border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-button {
-    padding: 10px 20px;
-    background-color: #007BFF;
+/* Main Content */
+main {
+    padding: 20px;
+}
+
+main section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+main section h2 {
+    margin-top: 0;
+    font-size: 1.6rem;
+    color: #007bff;
+}
+
+main section p {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Footer Styles */
+footer.main-footer {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+/* Logout Button */
+.logout-button {
+    background-color: #dc3545; /* Red button */
     color: white;
     border: none;
-    border-radius: 3px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
     cursor: pointer;
+    transition: background-color 0.3s;
+    float: right;
+    margin: 15px;
 }
 
-button:hover {
-    background-color: #0056b3;
+.logout-button:hover {
+    background-color: #c82333;
 }
 
-table {
+/* Dashboard Styles */
+.dashboard-card {
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-card h3 {
+    font-size: 1.5rem;
+    color: #007bff;
+}
+
+.dashboard-card p {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Houses Styles */
+.houses-table {
     width: 100%;
     border-collapse: collapse;
-    margin: 20px 0;
+    margin-bottom: 20px;
 }
 
-table th,
-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
+.houses-table th,
+.houses-table td {
+    border: 1px solid #dee2e6;
+    padding: 10px;
     text-align: left;
 }
 
-table th {
-    background-color: #007BFF;
+.houses-table th {
+    background-color: #007bff;
     color: white;
+}
+
+/* Guests Styles */
+.guest-form {
+    max-width: 600px;
+    margin: auto;
+}
+
+.guest-form input,
+.guest-form select,
+.guest-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* Maintenance Styles */
+.maintenance-card {
+    padding: 15px;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.maintenance-card h4 {
+    margin-top: 0;
+    color: #343a40;
+}
+
+/* Reports Styles */
+.reports-section {
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.reports-section h2 {
+    font-size: 1.6rem;
+    color: #007bff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    nav.navbar ul {
+        flex-direction: column;
+    }
+
+    nav.navbar ul li {
+        margin-bottom: 10px;
+    }
+
+    .logout-button {
+        width: 100%;
+        margin: 10px 0;
+    }
 }

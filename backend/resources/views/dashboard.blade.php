@@ -1,32 +1,28 @@
 @extends('layout')
 
 @section('content')
-<div class="container mt-5">
-    <h1>Admin Dashboard</h1>
-    <div class="row mt-4">
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Total Houses</h5>
-                    <p class="card-text">{{ $totalHouses }}</p>
-                </div>
-            </div>
+<div class="container">
+    <h1>Dashboard</h1>
+    <div class="dashboard-cards">
+        <div class="card">
+            <h2>Total Houses</h2>
+            <p>{{ $totalHouses }}</p>
         </div>
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Total Maintenance Requests</h5>
-                    <p class="card-text">{{ $totalMaintenance }}</p>
-                </div>
-            </div>
+        <div class="card">
+            <h2>Occupied Houses</h2>
+            <p>{{ $occupiedHouses }}</p>
         </div>
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Guests Checked In</h5>
-                    <p class="card-text">{{ $checkedInGuests }}</p>
-                </div>
-            </div>
+        <div class="card">
+            <h2>Vacant Houses</h2>
+            <p>{{ $vacantHouses }}</p>
+        </div>
+        <div class="card">
+            <h2>Total Guests</h2>
+            <p>{{ $totalGuests }}</p>
+        </div>
+        <div class="card">
+            <h2>Pending Maintenance Requests</h2>
+            <p>{{ $pendingMaintenanceRequests }}</p>
         </div>
     </div>
 </div>

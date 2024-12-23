@@ -5,24 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
-    // Define the table name if it is not "users"
-    protected $table = 'users';
-
-    // Define the fillable fields
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'name',
         'email',
         'password',
-        'role',
     ];
 
     /**
-     * Hide sensitive fields.
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array
      */
     protected $hidden = [
         'password',
@@ -30,10 +33,27 @@ class User extends Authenticatable
     ];
 
     /**
-     * Define the relationship with the MaintenanceRequest model.
+     * The attributes that should be cast.
+     *
+     * @var array
      */
-    public function maintenanceRequests()
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+    /**
+     * Define any relationships here if applicable, such as roles or permissions.
+     */
+    public function roles()
     {
-        return $this->hasMany(MaintenanceRequest::class, 'requested_by');
+        return $this->belongsToMany(Role::class);
+    }
+
+    /**
+     * Check if the user has a specific role.
+     */
+    public function hasRole($role)
+    {
+        return $this->roles->contains('name', $role);
     }
 }

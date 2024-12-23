@@ -1,35 +1,44 @@
-@extends('layout')
-
-@section('content')
-<div class="container">
-    <h2>Maintenance Requests</h2>
-    <a href="{{ route('maintenance.create') }}" class="btn btn-success mb-3">Add New Request</a>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>House Name</th>
-                <th>Description</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($requests as $request)
-            <tr>
-                <td>{{ $request->house->name }}</td>
-                <td>{{ $request->description }}</td>
-                <td>{{ $request->status }}</td>
-                <td>
-                    <a href="{{ route('maintenance.edit', $request->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                    <form action="{{ route('maintenance.destroy', $request->id) }}" method="POST" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
-@endsection
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maintenance Requests | KDSI House Management System</title>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Maintenance Requests</h1>
+        <a href="{{ route('maintenance.create') }}" class="btn-primary">Add New Request</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>House</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($requests as $request)
+                    <tr>
+                        <td>{{ $request->id }}</td>
+                        <td>{{ $request->house->address }}</td>
+                        <td>{{ $request->description }}</td>
+                        <td>{{ ucfirst($request->status) }}</td>
+                        <td>
+                            <a href="{{ route('maintenance.edit', $request->id) }}" class="btn-secondary">Edit</a>
+                            <form action="{{ route('maintenance.destroy', $request->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

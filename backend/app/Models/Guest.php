@@ -9,20 +9,38 @@ class Guest extends Model
 {
     use HasFactory;
 
-    // Define the table name if it is not "guests"
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'guests';
 
-    // Define the fillable fields
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'name',
+        'email',
+        'phone',
         'check_in_date',
         'check_out_date',
-        'house_id',
-        'purpose',
     ];
 
     /**
-     * Define the relationship with the House model.
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'check_in_date' => 'datetime',
+        'check_out_date' => 'datetime',
+    ];
+
+    /**
+     * Define a relationship with the House model if needed.
      */
     public function house()
     {

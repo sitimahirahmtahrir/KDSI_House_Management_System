@@ -4,36 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KDSI House Management System</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{{ url('/') }}">KDSI HMS</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/dashboard') }}">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/houses') }}">Houses</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/maintenance') }}">Maintenance</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/guests') }}">Guests</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+    <header class="main-header">
+        <h1>KDSI House Management System</h1>
+    </header>
+    <nav class="navbar">
+        <ul>
+            <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ route('houses.index') }}">Houses</a></li>
+            <li><a href="{{ route('guests.index') }}">Guests</a></li>
+            <li><a href="{{ route('maintenance.index') }}">Maintenance</a></li>
+            <li><a href="{{ route('reports.index') }}">Reports</a></li>
+        </ul>
     </nav>
-    <div class="container">
+    <main>
         @yield('content')
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </main>
+    <footer class="main-footer">
+        <p>&copy; {{ date('Y') }} KDSI House Management System. All Rights Reserved.</p>
+    </footer>
 </body>
 </html>

@@ -4,26 +4,24 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMaintenanceRequestsTable extends Migration
+class CreateUsersTable extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('maintenance_requests', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('house_id');
-            $table->text('description');
-            $table->string('status')->default('Pending'); // E.g., 'Pending', 'In Progress', 'Resolved'
-            $table->unsignedBigInteger('requested_by');
-            $table->string('image')->nullable(); // For uploaded images of maintenance issues
-            $table->timestamps();
-
-            $table->foreign('house_id')->references('id')->on('houses')->onDelete('cascade');
-            $table->foreign('requested_by')->references('id')->on('users')->onDelete('cascade');
+        Schema::create('users', function (Blueprint $table) {
+            $table->id(); // Primary key
+            $table->string('name'); // Full name of the user
+            $table->string('email')->unique(); // Email address (must be unique)
+            $table->string('password'); // Encrypted password
+            $table->enum('role', ['admin', 'manager', 'staff', 'guest'])->default('guest'); // Role-based access control
+            $table->timestamp('email_verified_at')->nullable(); // Email verification timestamp
+            $table->rememberToken(); // Token for "remember me" functionality
+            $table->timestamps(); // Created and updated timestamps
         });
     }
 
@@ -32,8 +30,8 @@ class CreateMaintenanceRequestsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('maintenance_requests');
+        Schema::dropIfExists('users');
     }
 }

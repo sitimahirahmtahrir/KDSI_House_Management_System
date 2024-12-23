@@ -9,19 +9,26 @@ class House extends Model
 {
     use HasFactory;
 
-    // Define the table name if it is not "houses"
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'houses';
 
-    // Define the fillable fields
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'name',
         'address',
-        'status',
-        'type',
+        'status', // Options: 'Vacant', 'Occupied', 'Under Maintenance'
     ];
 
     /**
-     * Define the relationship with the Guest model.
+     * Define a relationship with the Guest model if applicable.
      */
     public function guests()
     {
@@ -29,7 +36,7 @@ class House extends Model
     }
 
     /**
-     * Define the relationship with the MaintenanceRequest model.
+     * Define a relationship with the MaintenanceRequest model.
      */
     public function maintenanceRequests()
     {

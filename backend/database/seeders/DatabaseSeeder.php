@@ -3,8 +3,11 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\House;
+use App\Models\Guest;
+use App\Models\MaintenanceRequest;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,29 +16,23 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        // Create an admin user
+        // Seed default admin user
         User::create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'Admin',
+            'password' => Hash::make('password'), // Use a strong password in production
+            'role' => 'admin',
         ]);
 
-        // Create sample houses
-        House::create([
-            'name' => 'House A',
-            'address' => '123 Main Street',
-            'type' => 'Apartment',
-            'status' => 'Vacant',
-        ]);
+        // Seed sample houses
+        House::factory()->count(10)->create();
 
-        House::create([
-            'name' => 'House B',
-            'address' => '456 Elm Street',
-            'type' => 'Detached',
-            'status' => 'Occupied',
-        ]);
+        // Seed sample guests
+        Guest::factory()->count(20)->create();
+
+        // Seed sample maintenance requests
+        MaintenanceRequest::factory()->count(15)->create();
     }
 }
