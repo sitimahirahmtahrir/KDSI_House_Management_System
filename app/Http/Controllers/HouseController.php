@@ -21,6 +21,39 @@ class HouseController extends Controller
     }
 
     /**
+     * Display a list of vacant houses.
+     *
+     * @return View
+     */
+    public function vacant(): View
+    {
+        $houses = House::where('status', 'vacant')->get();
+        return view('houses.vacant', compact('houses'));
+    }
+
+    /**
+     * Display a list of occupied houses.
+     *
+     * @return View
+     */
+    public function occupied(): View
+    {
+        $houses = House::where('status', 'occupied')->get();
+        return view('houses.occupied', compact('houses'));
+    }
+
+    /**
+     * Display a list of houses under maintenance.
+     *
+     * @return View
+     */
+    public function underMaintenance(): View
+    {
+        $houses = House::where('status', 'under maintenance')->get();
+        return view('houses.under_maintenance', compact('houses'));
+    }
+
+    /**
      * Show the form for creating a new house.
      *
      * @return View
@@ -41,6 +74,7 @@ class HouseController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
+            'status' => 'required|string|in:vacant,occupied,under maintenance',
         ]);
 
         House::create($validated);
@@ -82,6 +116,7 @@ class HouseController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
+            'status' => 'required|string|in:vacant,occupied,under maintenance',
         ]);
 
         $house->update($validated);

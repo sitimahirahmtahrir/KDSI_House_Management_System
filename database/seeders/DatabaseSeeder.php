@@ -18,9 +18,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Seed default admin user
+        // Seed default admin user (if not exists)
         User::firstOrCreate(
-            ['email' => 'admin@example.com'], // Check for uniqueness
+            ['email' => 'admin@example.com'], // Check if the admin user already exists
             [
                 'name' => 'Admin User',
                 'password' => Hash::make('password'), // Use a strong password in production
@@ -28,16 +28,48 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // Seed sample users
-        User::factory()->count(10)->create();
+        // Seed additional sample users
+        $this->seedUsers();
 
-        // Seed sample houses
-        House::factory()->count(10)->create();
+        // Seed houses with factory data
+        $this->seedHouses();
 
-        // Seed sample guests
-        Guest::factory()->count(20)->create();
+        // Seed guests with factory data
+        $this->seedGuests();
 
-        // Seed sample maintenance requests
-        MaintenanceRequest::factory()->count(15)->create();
+        // Seed maintenance requests with factory data
+        $this->seedMaintenanceRequests();
+    }
+
+    /**
+     * Seed sample users using the factory.
+     */
+    private function seedUsers(): void
+    {
+        User::factory()->count(10)->create(); // Creates 10 sample users
+    }
+
+    /**
+     * Seed sample houses using the factory.
+     */
+    private function seedHouses(): void
+    {
+        House::factory()->count(10)->create(); // Creates 10 sample houses
+    }
+
+    /**
+     * Seed sample guests using the factory.
+     */
+    private function seedGuests(): void
+    {
+        Guest::factory()->count(20)->create(); // Creates 20 sample guests
+    }
+
+    /**
+     * Seed sample maintenance requests using the factory.
+     */
+    private function seedMaintenanceRequests(): void
+    {
+        MaintenanceRequest::factory()->count(15)->create(); // Creates 15 sample maintenance requests
     }
 }

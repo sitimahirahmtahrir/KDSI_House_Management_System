@@ -2,39 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\House;
-use App\Models\Guest;
 use App\Models\MaintenanceRequest;
-use Inertia\Inertia;
-use Inertia\Response;
+use App\Models\GuestVisit;
 
 class DashboardController extends Controller
 {
-    /**
-     * Display the dashboard overview.
-     *
-     * @return Response
-     */
-    public function index(): Response
+    public function index()
     {
-        // Fetch data for the dashboard
+        // Fetch dynamic data
         $totalHouses = House::count();
-        $occupiedHouses = House::where('status', 'occupied')->count();
         $vacantHouses = House::where('status', 'vacant')->count();
-        $totalGuests = Guest::count();
-        $pendingMaintenanceRequests = MaintenanceRequest::where('status', 'pending')->count();
+        $occupiedHouses = House::where('status', 'occupied')->count();
+        $underMaintenanceHouses = House::where('status', 'under maintenance')->count();
+        $newMaintenanceRequests = MaintenanceRequest::where('status', 'new')->count();
+        $houseVisitors = GuestVisit::count();
 
-        // Prepare data to send to the frontend
-        $data = [
+        return view('dashboard', [
             'totalHouses' => $totalHouses,
-            'occupiedHouses' => $occupiedHouses,
             'vacantHouses' => $vacantHouses,
-            'totalGuests' => $totalGuests,
-            'pendingMaintenanceRequests' => $pendingMaintenanceRequests,
-        ];
-
-        // Pass data to the Inertia Vue component
-        return Inertia::render('Dashboard', $data);
+            'occupiedHouses' => $occupiedHouses,
+            'underMaintenanceHouses' => $underMaintenanceHouses,
+            'newMaintenanceRequests' => $newMaintenanceRequests,
+            'houseVisitors' => $houseVisitors,
+        ]);
     }
 }

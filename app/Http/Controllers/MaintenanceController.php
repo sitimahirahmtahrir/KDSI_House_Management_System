@@ -2,76 +2,145 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\MaintenanceRequest;
+use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class MaintenanceController extends Controller
 {
     /**
-     * Display a listing of the maintenance requests.
+     * Display a listing of all maintenance requests with summary data.
+     *
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
-        $maintenanceRequests = MaintenanceRequest::all();
-        return view('maintenance.index', compact('maintenanceRequests'));
+        $requests = MaintenanceRequest::with('house')->get();
+        $totalRequests = $requests->count();
+        $inProgressRequests = $requests->where('status', 'in progress')->count();
+        $completedRequests = $requests->where('status', 'completed')->count();
+
+        return view('maintenance.index', [
+            'requests' => $requests,
+            'totalRequests' => $totalRequests,
+            'inProgressRequests' => $inProgressRequests,
+            'completedRequests' => $completedRequests,
+        ]);
+    }
+
+    /**
+     * Display a list of pending maintenance requests.
+     *
+     * @return View
+     */
+    public function pending(): View
+    {
+        $requests = MaintenanceRequest::where('status', 'pending')->get();
+        return view('maintenance.pending', compact('requests'));
+    }
+
+    /**
+     * Display a list of in-progress maintenance requests.
+     *
+     * @return View
+     */
+    public function inProgress(): View
+    {
+        $requests = MaintenanceRequest::where('status', 'in progress')->get();
+        return view('maintenance.in_progress', compact('requests'));
+    }
+
+    /**
+     * Display a list of completed maintenance requests.
+     *
+     * @return View
+     */
+    public function completed(): View
+    {
+        $requests = MaintenanceRequest::where('status', 'completed')->get();
+        return view('maintenance.completed', compact('requests'));
     }
 
     /**
      * Show the form for creating a new maintenance request.
+     *
+     * @return View
      */
-    public function create()
+    public function create(): View
     {
         return view('maintenance.create');
     }
 
     /**
      * Store a newly created maintenance request in storage.
+     *
+     * @param  Request  $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        $validatedData = $request->validate([
-            'house_id' => 'required|integer|exists:houses,id',
-            'description' => 'required|string|max:255',
-            'status' => 'required|string|in:Pending,In Progress,Completed',
+        $validated = $request->validate([
+            'house_id' => 'required|exists:houses,id',
+            'description' => 'required|string|max:1000',
+            'status' => 'required|string|in:pending,in progress,completed',
         ]);
 
-        MaintenanceRequest::create($validatedData);
+        MaintenanceRequest::create($validated);
 
         return redirect()->route('maintenance.index')->with('success', 'Maintenance request created successfully.');
     }
 
     /**
-     * Show the form for editing the specified maintenance request.
+     * Display the specified maintenance request.
+     *
+     * @param  MaintenanceRequest  $request
+     * @return View
      */
-    public function edit($id)
+    public function show(MaintenanceRequest $request): View
     {
-        $maintenanceRequest = MaintenanceRequest::findOrFail($id);
-        return view('maintenance.edit', compact('maintenanceRequest'));
+        return view('maintenance.show', compact('request'));
+    }
+
+    /**
+     * Show the form for editing the specified maintenance request.
+     *
+     * @param  MaintenanceRequest  $request
+     * @return View
+     */
+    public function edit(MaintenanceRequest $request): View
+    {
+        return view('maintenance.edit', compact('request'));
     }
 
     /**
      * Update the specified maintenance request in storage.
+     *
+     * @param  Request  $request
+     * @param  MaintenanceRequest  $maintenanceRequest
+     * @return RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, MaintenanceRequest $maintenanceRequest): RedirectResponse
     {
-        $validatedData = $request->validate([
-            'house_id' => 'required|integer|exists:houses,id',
-            'description' => 'required|string|max:255',
-            'status' => 'required|string|in:Pending,In Progress,Completed',
+        $validated = $request->validate([
+            'house_id' => 'required|exists:houses,id',
+            'description' => 'required|string|max:1000',
+            'status' => 'required|string|in:pending,in progress,completed',
         ]);
 
-        $maintenanceRequest = MaintenanceRequest::findOrFail($id);
-        $maintenanceRequest->update($validatedData);
+        $maintenanceRequest->update($validated);
 
         return redirect()->route('maintenance.index')->with('success', 'Maintenance request updated successfully.');
     }
 
     /**
      * Remove the specified maintenance request from storage.
+     *
+     * @param  MaintenanceRequest  $maintenanceRequest
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(MaintenanceRequest $maintenanceRequest): RedirectResponse
     {
-        $maintenanceRequest = MaintenanceRequest::findOrFail($id);
         $maintenanceRequest->delete();
 
         return redirect()->route('maintenance.index')->with('success', 'Maintenance request deleted successfully.');
