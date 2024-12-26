@@ -14,7 +14,7 @@ class Guest extends Model
      *
      * @var string
      */
-    protected $table = 'guests';
+
 
     /**
      * The attributes that are mass assignable.
@@ -23,10 +23,8 @@ class Guest extends Model
      */
     protected $fillable = [
         'name',
-        'email',
-        'phone',
-        'check_in_date',
-        'check_out_date',
+        'visit_date',
+        'house_id',
     ];
 
     /**

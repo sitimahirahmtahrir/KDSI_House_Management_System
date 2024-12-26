@@ -3,139 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <!-- Add Bootstrap for Styling -->
+    <title>Dashboard | KDSI Management System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .navbar {
-            background-color: navy;
+        body {
+            background-color: #f8f9fa;
+            color: #212529;
         }
-        .navbar-brand {
+        header {
+            background: #001f3f; /* Navy Blue */
             color: white;
+            padding: 15px;
+        }
+        .header-title {
+            font-size: 1.5rem;
             font-weight: bold;
         }
-        .navbar-brand:hover {
-            color: lightgray;
-        }
-        .logout-link {
+        .header-links .dropdown-toggle {
+            border: none;
+            background: none;
             color: white;
         }
-        .logout-link:hover {
-            color: lightgray;
-            text-decoration: none;
+        .summary-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
-        .card {
-            cursor: pointer;
-            transition: box-shadow 0.3s ease;
-        }
-        .card:hover {
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-        }
-        .card-body h4 {
-            color: #007bff;
+        .summary-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #0d6efd;
         }
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">KDSI Management System</a>
-        <div class="ms-auto">
-            <a href="{{ route('users.index') }}" class="text-decoration-none text-white me-3">User Management</a>
-            <a href="#" class="text-decoration-none text-white"
-               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
-            </form>
+    <header class="d-flex justify-content-between align-items-center">
+        <div class="header-title">KDSI House Management System</div>
+        <div class="header-links">
+            <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    ☰
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="{{ route('users.index') }}">User Management</a></li>
+                    <li><a class="dropdown-item" href="{{ route('reports.index') }}">Report</a></li>
+                    <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div class="container my-5">
+        <h1 class="text-center mb-4">Welcome to the Dashboard</h1>
+        <!-- Summary Section -->
+        <div class="row text-center mb-4">
+            <div class="col-md-3">
+                <a href="{{ route('houses.index') }}" class="text-decoration-none">
+                    <div class="summary-card">
+                        <div class="icon">&#x1F3E0;</div>
+                        <h5>Total Houses</h5>
+                        <p>{{ $totalHouses }}</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="{{ route('houses.underMaintenance') }}" class="text-decoration-none">
+                    <div class="summary-card">
+                        <div class="icon">&#x1F527;</div>
+                        <h5>Under Maintenance</h5>
+                        <p>{{ $underMaintenance }}</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+            <a href="{{ route('maintenance.newRequests') }}" class="text-decoration-none">
+                <div class="card text-center">
+                    <div class="card-body">
+                    <h5 class="card-title">New Maintenance Requests</h5>
+                    <p class="card-text">{{ $newRequestsCount }}</p>
+                </div>
+            </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="{{ route('guests.index') }}" class="text-decoration-none">
+                    <div class="summary-card">
+                        <div class="icon">&#x1F465;</div>
+                        <h5>House Visitors</h5>
+                        <p>{{ $houseVisitors }}</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Announcements Section -->
+        <div class="announcement-card">
+            <div class="announcement-header">
+                <h4>Latest Announcements</h4>
+                <a href="{{ route('announcements.create') }}" class="btn btn-primary btn-sm">Add New Announcement</a>
+            </div>
+            <div class="announcement-list">
+                @forelse ($announcements as $announcement)
+                    <div class="announcement-item">
+                        <h5>{{ $announcement->title }}</h5>
+                        <p><strong>Date:</strong> {{ $announcement->date }} | <strong>Time:</strong> {{ $announcement->time }}</p>
+                        <p>{{ $announcement->details }}</p>
+                        <div class="d-flex justify-content-end">
+                            <a href="{{ route('announcements.edit', $announcement->id) }}" class="btn btn-warning btn-sm me-2">Edit</a>
+                            <form action="{{ route('announcements.destroy', $announcement->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this announcement?')">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                @empty
+                    <p class="text-muted">No announcements available at the moment.</p>
+                @endforelse
+            </div>
         </div>
     </div>
-</nav>
-
-
-    <div class="container mt-5">
-    <div class="row text-center mb-4">
-        <h1>Welcome to the Dashboard</h1>
-        <p class="text-muted">Here is an overview of the system's current status.</p>
-    </div>
-
-    <!-- Row for Houses Overview -->
-    <div class="row">
-        <div class="col-md-3">
-            <a href="{{ route('houses.index') }}" class="text-decoration-none">
-                <div class="card shadow border-0">
-                    <div class="card-body text-center">
-                        <h4>{{ $totalHouses }}</h4>
-                        <p>Total Houses</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-md-3">
-            <a href="{{ route('houses.vacant') }}" class="text-decoration-none">
-                <div class="card shadow border-0">
-                    <div class="card-body text-center">
-                        <h4>{{ $vacantHouses }}</h4>
-                        <p>Vacant Houses</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-md-3">
-            <a href="{{ route('houses.occupied') }}" class="text-decoration-none">
-                <div class="card shadow border-0">
-                    <div class="card-body text-center">
-                        <h4>{{ $occupiedHouses }}</h4>
-                        <p>Occupied Houses</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-md-3">
-            <a href="{{ route('houses.underMaintenance') }}" class="text-decoration-none">
-                <div class="card shadow border-0">
-                    <div class="card-body text-center">
-                        <h4>{{ $underMaintenanceHouses }}</h4>
-                        <p>Under Maintenance</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div>
-
-    <!-- Row for Maintenance and Visitors -->
-    <div class="row mt-4">
-        <div class="col-md-6">
-            <a href="{{ route('maintenance.index') }}" class="text-decoration-none">
-                <div class="card shadow border-0">
-                    <div class="card-body text-center">
-                        <h4>{{ $newMaintenanceRequests }}</h4>
-                        <p>New Maintenance Requests</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-md-6">
-            <a href="{{ route('guests.index') }}" class="text-decoration-none">
-                <div class="card shadow border-0">
-                    <div class="card-body text-center">
-                        <h4>{{ $houseVisitors }}</h4>
-                        <p>House Visitors</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div>
-</div>
-
-
-
-
-<footer class="mt-5 text-center text-muted">
-    <p>&copy; 2024 KDSI Management System. All rights reserved.</p>
-</footer>
-
-
-    <!-- Add Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

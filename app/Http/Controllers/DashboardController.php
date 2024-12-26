@@ -3,28 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\House;
+use App\Models\Announcement;
 use App\Models\MaintenanceRequest;
-use App\Models\GuestVisit;
+use App\Models\Guest;
 
 class DashboardController extends Controller
 {
     public function index()
-    {
-        // Fetch dynamic data
-        $totalHouses = House::count();
-        $vacantHouses = House::where('status', 'vacant')->count();
-        $occupiedHouses = House::where('status', 'occupied')->count();
-        $underMaintenanceHouses = House::where('status', 'under maintenance')->count();
-        $newMaintenanceRequests = MaintenanceRequest::where('status', 'new')->count();
-        $houseVisitors = GuestVisit::count();
+{
+    $newRequestsCount = MaintenanceRequest::where('status', 'pending')->count();
+    $underMaintenanceCount = MaintenanceRequest::where('status', 'in progress')->count();
 
-        return view('dashboard', [
-            'totalHouses' => $totalHouses,
-            'vacantHouses' => $vacantHouses,
-            'occupiedHouses' => $occupiedHouses,
-            'underMaintenanceHouses' => $underMaintenanceHouses,
-            'newMaintenanceRequests' => $newMaintenanceRequests,
-            'houseVisitors' => $houseVisitors,
-        ]);
-    }
+    return view('dashboard', compact('newRequestsCount', 'underMaintenanceCount'));
+}
+
 }

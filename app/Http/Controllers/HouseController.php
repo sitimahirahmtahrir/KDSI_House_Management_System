@@ -2,138 +2,65 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\House;
 use Illuminate\Http\Request;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
+use App\Models\House;
+use App\Models\MaintenanceRequest;
+
 
 class HouseController extends Controller
 {
-    /**
-     * Display a listing of the houses.
-     *
-     * @return View
-     */
-    public function index(): View
+    public function underMaintenance()
     {
-        $houses = House::all();
-        return view('houses.index', compact('houses'));
+    $requests = MaintenanceRequest::with('house')
+        ->where('status', 'in progress')
+        ->paginate(10);
+
+    return view('houses.under_maintenance', compact('requests'));
     }
 
-    /**
-     * Display a list of vacant houses.
-     *
-     * @return View
-     */
-    public function vacant(): View
-    {
-        $houses = House::where('status', 'vacant')->get();
-        return view('houses.vacant', compact('houses'));
-    }
 
-    /**
-     * Display a list of occupied houses.
-     *
-     * @return View
-     */
-    public function occupied(): View
-    {
-        $houses = House::where('status', 'occupied')->get();
-        return view('houses.occupied', compact('houses'));
-    }
 
-    /**
-     * Display a list of houses under maintenance.
-     *
-     * @return View
-     */
-    public function underMaintenance(): View
+    public function store(Request $request)
     {
-        $houses = House::where('status', 'under maintenance')->get();
-        return view('houses.under_maintenance', compact('houses'));
-    }
-
-    /**
-     * Show the form for creating a new house.
-     *
-     * @return View
-     */
-    public function create(): View
-    {
-        return view('houses.create');
-    }
-
-    /**
-     * Store a newly created house in storage.
-     *
-     * @param  Request  $request
-     * @return RedirectResponse
-     */
-    public function store(Request $request): RedirectResponse
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
+        $request->validate([
             'address' => 'required|string|max:255',
-            'status' => 'required|string|in:vacant,occupied,under maintenance',
+            'status' => 'required|in:vacant,occupied,under maintenance',
         ]);
 
-        House::create($validated);
+        House::create($request->all());
 
-        return redirect()->route('houses.index')->with('success', 'House created successfully.');
+        return redirect()->route('houses.index')->with('success', 'House added successfully.');
     }
 
-    /**
-     * Display the specified house.
-     *
-     * @param  House  $house
-     * @return View
-     */
-    public function show(House $house): View
-    {
-        return view('houses.show', compact('house'));
-    }
-
-    /**
-     * Show the form for editing the specified house.
-     *
-     * @param  House  $house
-     * @return View
-     */
-    public function edit(House $house): View
+    public function edit(House $house)
     {
         return view('houses.edit', compact('house'));
     }
 
-    /**
-     * Update the specified house in storage.
-     *
-     * @param  Request  $request
-     * @param  House  $house
-     * @return RedirectResponse
-     */
-    public function update(Request $request, House $house): RedirectResponse
+    public function update(Request $request, House $house)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
+        $request->validate([
             'address' => 'required|string|max:255',
-            'status' => 'required|string|in:vacant,occupied,under maintenance',
+            'status' => 'required|in:vacant,occupied,under maintenance',
         ]);
 
-        $house->update($validated);
+        $house->update($request->all());
 
         return redirect()->route('houses.index')->with('success', 'House updated successfully.');
     }
 
-    /**
-     * Remove the specified house from storage.
-     *
-     * @param  House  $house
-     * @return RedirectResponse
-     */
-    public function destroy(House $house): RedirectResponse
+    public function show($id)
     {
-        $house->delete();
+        $house = House::findOrFail($id); // Retrieve the house by ID or throw a 404 error
+        return view('houses.show', compact('house')); // Pass the house data to a 'show' Blade file
+    }
 
-        return redirect()->route('houses.index')->with('success', 'House deleted successfully.');
+    public function index()
+    {
+        // Fetch all houses and pass them to the view
+        $houses = House::paginate(10); // Adjust pagination as needed
+        return view('houses.index', compact('houses'));
     }
 }
+
+

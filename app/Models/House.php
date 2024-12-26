@@ -9,35 +9,14 @@ class House extends Model
 {
     use HasFactory;
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'houses';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    // Define fillable fields
     protected $fillable = [
-        'name',
         'address',
-        'status', // Options: 'Vacant', 'Occupied', 'Under Maintenance'
+        'resident_name',
+        'status',
     ];
 
-    /**
-     * Define a relationship with the Guest model if applicable.
-     */
-    public function guests()
-    {
-        return $this->hasMany(Guest::class);
-    }
-
-    /**
-     * Define a relationship with the MaintenanceRequest model.
-     */
+    // Define relationship with MaintenanceRequest
     public function maintenanceRequests()
     {
         return $this->hasMany(MaintenanceRequest::class);

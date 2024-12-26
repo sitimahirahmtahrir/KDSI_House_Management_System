@@ -39,6 +39,8 @@ class DatabaseSeeder extends Seeder
 
         // Seed maintenance requests with factory data
         $this->seedMaintenanceRequests();
+
+        $this->call(MaintenanceRequestSeeder::class);
     }
 
     /**
