@@ -29,4 +29,5 @@ RUN chown -R www-data:www-data /var/www \
 
 # Expose port 9000 and start PHP-FPM server
 EXPOSE 9000
-CMD ["php-fpm"]
+CMD php artisan serve --host=0.0.0.0 --port=${PORT:-8000}
+
