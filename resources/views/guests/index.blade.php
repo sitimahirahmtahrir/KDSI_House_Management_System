@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+<x-header title="KDSI House Management" />
+
 <div class="container">
     <h1>Guest Management</h1>
     <a href="{{ route('guests.create') }}" class="btn btn-primary mb-3">Add New Guest</a>
@@ -39,5 +41,7 @@
         </tbody>
     </table>
     {{ $guests->links() }}
+    @include('components.footer')
+
 </div>
 @endsection

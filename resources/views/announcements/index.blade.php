@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+<x-header title="KDSI House Management" />
+
 <div class="container">
     <h1>Announcements</h1>
 
@@ -60,5 +62,7 @@
     </table>
 
     {{ $announcements->links() }}
+    @include('components.footer')
+
 </div>
 @endsection

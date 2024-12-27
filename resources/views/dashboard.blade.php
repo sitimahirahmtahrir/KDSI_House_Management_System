@@ -40,6 +40,28 @@
             margin-bottom: 10px;
             color: #0d6efd;
         }
+        .announcement-card {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .announcement-item {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .announcement-item h5 {
+            margin-bottom: 10px;
+            font-size: 1.25rem;
+            color: #333;
+        }
+        .announcement-item p {
+            margin: 0;
+            color: #555;
+        }
     </style>
 </head>
 <body>
@@ -60,6 +82,7 @@
     </header>
     <div class="container my-5">
         <h1 class="text-center mb-4">Welcome to the Dashboard</h1>
+
         <!-- Summary Section -->
         <div class="row text-center mb-4">
             <div class="col-md-3">
@@ -81,13 +104,12 @@
                 </a>
             </div>
             <div class="col-md-3">
-            <a href="{{ route('maintenance.newRequests') }}" class="text-decoration-none">
-                <div class="card text-center">
-                    <div class="card-body">
-                    <h5 class="card-title">New Maintenance Requests</h5>
-                    <p class="card-text">{{ $newRequestsCount }}</p>
-                </div>
-            </div>
+                <a href="{{ route('maintenance.newRequests') }}" class="text-decoration-none">
+                    <div class="summary-card">
+                        <div class="icon">&#x1F4DD;</div>
+                        <h5>New Maintenance Requests</h5>
+                        <p>{{ $newRequestsCount }}</p>
+                    </div>
                 </a>
             </div>
             <div class="col-md-3">
@@ -103,7 +125,7 @@
 
         <!-- Announcements Section -->
         <div class="announcement-card">
-            <div class="announcement-header">
+            <div class="d-flex justify-content-between align-items-center mb-3">
                 <h4>Latest Announcements</h4>
                 <a href="{{ route('announcements.create') }}" class="btn btn-primary btn-sm">Add New Announcement</a>
             </div>
@@ -125,6 +147,8 @@
                 @empty
                     <p class="text-muted">No announcements available at the moment.</p>
                 @endforelse
+                @include('components.footer')
+
             </div>
         </div>
     </div>

@@ -13,6 +13,12 @@ class MaintenanceRequest extends Model
 
     public function house()
     {
-        return $this->belongsTo(House::class);
+    return $this->belongsTo(House::class);
     }
+
+    public function resident()
+    {
+    return $this->belongsTo(Resident::class);
+    }
+
 }

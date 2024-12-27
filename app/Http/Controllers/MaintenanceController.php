@@ -10,11 +10,11 @@ class MaintenanceController extends Controller
     // New Maintenance Requests: Only Pending Requests
     public function newRequests()
     {
-        $requests = MaintenanceRequest::with('house')
-            ->where('status', 'pending')
-            ->paginate(10);
+    $maintenanceRequests = MaintenanceRequest::with('house', 'resident') // Eager load related models
+        ->where('status', 'pending') // Fetch only pending requests
+        ->get();
 
-        return view('maintenance.new_requests', compact('requests'));
+    return view('maintenance.new_requests', compact('maintenanceRequests'));
     }
 
     // Under Maintenance Requests: In Progress
@@ -51,9 +51,12 @@ class MaintenanceController extends Controller
 
     public function index()
     {
-    $maintenanceRequests = MaintenanceRequest::with('house')->paginate(10);
+        $totalRequests = MaintenanceRequest::count();
+        $inProgress = MaintenanceRequest::where('status', 'in progress')->count();
+        $solved = MaintenanceRequest::where('status', 'solved')->count();
 
-    return view('maintenance.index', compact('maintenanceRequests'));
+        return view('maintenance.index', compact('totalRequests', 'inProgress', 'solved'));
     }
+
 
 }

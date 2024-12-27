@@ -9,16 +9,17 @@ class House extends Model
 {
     use HasFactory;
 
-    // Define fillable fields
-    protected $fillable = [
-        'address',
-        'resident_name',
-        'status',
-    ];
+    protected $fillable = ['address', 'status'];
 
-    // Define relationship with MaintenanceRequest
     public function maintenanceRequests()
     {
-        return $this->hasMany(MaintenanceRequest::class);
+    return $this->hasMany(MaintenanceRequest::class);
     }
+
+public function resident()
+    {
+    return $this->hasOne(Resident::class);
+    }
+
 }
+

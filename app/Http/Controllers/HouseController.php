@@ -57,10 +57,14 @@ class HouseController extends Controller
 
     public function index()
     {
-        // Fetch all houses and pass them to the view
-        $houses = House::paginate(10); // Adjust pagination as needed
-        return view('houses.index', compact('houses'));
+        $houses = House::with('resident')->get(); // Load resident data with houses
+        $totalHouses = $houses->count();
+        $vacantHouses = $houses->where('status', 'vacant')->count();
+        $occupiedHouses = $houses->where('status', 'occupied')->count();
+
+        return view('houses.index', compact('houses', 'totalHouses', 'vacantHouses', 'occupiedHouses'));
     }
+
 }
 
 

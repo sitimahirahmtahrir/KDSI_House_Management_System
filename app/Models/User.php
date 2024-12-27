@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -42,7 +43,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * Define any relationships here if applicable, such as roles or permissions.
+     * Define any additional relationships here if needed.
      */
     public function roles()
     {
@@ -51,6 +52,9 @@ class User extends Authenticatable
 
     /**
      * Check if the user has a specific role.
+     *
+     * @param string $role
+     * @return bool
      */
     public function hasRole($role)
     {

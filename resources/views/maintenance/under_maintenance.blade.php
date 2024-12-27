@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+<x-header title="KDSI House Management" />
+
 <div class="container">
     <h1>Under Maintenance</h1>
     <table class="table table-bordered" id="underMaintenanceTable">
