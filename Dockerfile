@@ -7,28 +7,28 @@ WORKDIR /var/www
 RUN apt-get update && apt-get install -y \
     git \
     curl \
+    unzip \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
     zip \
-    unzip
-
-# Install PHP extensions
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+    npm
 
 # Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
 
-# Copy application files
-COPY . /var/www
+# Copy project files
+COPY . .
 
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www \
-    && chmod -R 755 /var/www/storage
+# Install and build frontend dependencies
+RUN npm install && npm run build
 
-# Expose port and set the startup command
+# Set permissions
+RUN chmod -R 775 storage bootstrap/cache
+
+# Expose port and start the PHP server
 EXPOSE 9000
-CMD php artisan serve --host=0.0.0.0 --port=${PORT:-8000}
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=9000"]
