@@ -3,7 +3,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
         "vercel-build": "composer install --no-dev --optimize-autoloader && npm run build"
     },
     "devDependencies": {
