@@ -11,9 +11,17 @@ class ModifyDetailsNullableInAnnouncementsTable extends Migration
      */
     public function up()
     {
-        Schema::table('announcements', function (Blueprint $table) {
-            $table->string('details')->nullable()->change();
-        });
+        // Check if the 'details' column exists before trying to modify it
+        if (Schema::hasColumn('announcements', 'details')) {
+            Schema::table('announcements', function (Blueprint $table) {
+                $table->string('details')->nullable()->change();
+            });
+        } else {
+            // Add the 'details' column if it doesn't exist
+            Schema::table('announcements', function (Blueprint $table) {
+                $table->string('details')->nullable();
+            });
+        }
     }
 
     /**
@@ -21,8 +29,11 @@ class ModifyDetailsNullableInAnnouncementsTable extends Migration
      */
     public function down()
     {
-        Schema::table('announcements', function (Blueprint $table) {
-            $table->string('details')->nullable(false)->change();
-        });
+        // Check if the 'details' column exists before trying to modify it
+        if (Schema::hasColumn('announcements', 'details')) {
+            Schema::table('announcements', function (Blueprint $table) {
+                $table->string('details')->nullable(false)->change();
+            });
+        }
     }
 }
