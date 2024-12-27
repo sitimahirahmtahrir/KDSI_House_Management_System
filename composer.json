@@ -14,7 +14,7 @@
         "laravel/ui": "^4.6",
         "pusher/pusher-php-server": "^7.2",
         "spatie/laravel-permission": "^6.10",
-        "tightenco/ziggy": "^2.0"
+        "tightenco/ziggy": "^2.4"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
