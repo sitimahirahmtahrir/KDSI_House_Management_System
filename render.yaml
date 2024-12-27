@@ -3,7 +3,7 @@ services:
     name: laravel-app
     env: docker
     dockerfilePath: ./Dockerfile
-    buildCommand: composer install --no-dev
+    buildCommand: composer install --no-dev --optimize-autoloader
     startCommand: php artisan serve --host 0.0.0.0 --port $PORT
     envVars:
       - key: APP_ENV

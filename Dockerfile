@@ -1,4 +1,3 @@
-# Use an official PHP runtime as the base image
 FROM php:8.1-fpm
 
 # Set working directory
@@ -20,14 +19,16 @@ RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy existing application directory contents
+# Copy application files
 COPY . /var/www
+
+# Install PHP dependencies
+RUN composer install --no-dev --optimize-autoloader
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 755 /var/www/storage
 
-# Expose port 9000 and start PHP-FPM server
+# Expose port and set the startup command
 EXPOSE 9000
 CMD php artisan serve --host=0.0.0.0 --port=${PORT:-8000}
-
