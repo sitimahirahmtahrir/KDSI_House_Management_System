@@ -2,7 +2,6 @@ services:
   - type: web
     name: laravel-app
     env: docker
-    plan: free
     dockerfilePath: ./Dockerfile
     buildCommand: composer install --no-dev
     startCommand: php artisan serve --host 0.0.0.0 --port 10000
@@ -10,16 +9,16 @@ services:
       - key: APP_ENV
         value: production
       - key: APP_KEY
-        value: base64:L8S+h6HBbqXfzC3A9mzq8rdNbajTifnZ8WNpZgdZnV4=
+        value: <your-app-key>
       - key: DB_CONNECTION
         value: mysql
       - key: DB_HOST
-        value: 127.0.0.1
+        value: <your-database-host>
       - key: DB_PORT
         value: 3306
       - key: DB_DATABASE
-        value: kdsihouse
+        value: <your-database-name>
       - key: DB_USERNAME
-        value: root
+        value: <your-database-username>
       - key: DB_PASSWORD
-        value:
+        value: <your-database-password>
