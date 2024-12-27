@@ -8,7 +8,7 @@
                     <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
                     <li><a class="dropdown-item" href="{{ route('users.index') }}">User Management</a></li>
                     <li><a class="dropdown-item" href="{{ route('reports.index') }}">Report</a></li>
-            <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
+                    <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
         </ul>
     </div>
 </div>
