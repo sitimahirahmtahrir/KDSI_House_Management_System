@@ -12,13 +12,5 @@
     ],
     "routes": [
       { "src": "/(.*)", "dest": "public/index.php" }
-    ],
-    "build": {
-      "env": {
-        "COMPOSER_ALLOW_SUPERUSER": "1"
-      },
-      "scripts": {
-        "vercel-build": "curl -sS https://getcomposer.org/installer | php && php composer.phar install --no-dev --optimize-autoloader && npm run build"
-      }
-    }
+    ]
   }
